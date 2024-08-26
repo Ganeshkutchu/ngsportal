@@ -24,4 +24,24 @@ pipeline {
 
         }
     }
+    post { 
+        success { 
+            emailext ( 
+                subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
+                body: "The build succeeded. Check the details at: ${env.BUILD_URL}/pipeline-graph/", 
+                to: 'handsomemadhu10@gmail.com', 
+                attachLog: true, 
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']] 
+            ) 
+        } 
+        failure { 
+            emailext ( 
+                subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
+                body: "The build failed. Check the details at: ${env.BUILD_URL}/pipeline-graph/", 
+                to: 'handsomemadhu10@gmail.com', 
+                attachLog: true, 
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]         
+            ) 
+        } 
+    } 
 }
