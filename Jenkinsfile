@@ -1,29 +1,27 @@
 pipeline {
-    agent any
+    agent { label 'slave-1' } // Run the job on the node labeled 'slave-1'
     
     tools {
         maven 'maven3.9.8' // Use the Maven tool configured globally
     }
 
-     stages {
+    stages {
         stage('Cleanup Workspace') {
             steps {
                 cleanWs()
             }
         }
-        stage('clone Git Repository') {
+        stage('Clone Git Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/Ganeshkutchu/ngsportal.git'
             }
         }
-    
-        stage('Build an artifact'){
-            steps{
+        stage('Build an Artifact') {
+            steps {
                 sh 'mvn clean package'
             }
-
         }
-         stage('Parallel Stages') {
+        stage('Parallel Stages') {
             parallel {
                 stage('SonarQube Analysis') {
                     steps {
@@ -32,7 +30,7 @@ pipeline {
                         }
                     }
                 }
-            stage('Upload Build Artifact') {
+                stage('Upload Build Artifact') {
                     steps {
                         nexusArtifactUploader artifacts: [[artifactId: 'Ngs-Job-Portal', classifier: '', file: 'target/Ngs-Job-Portal-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'Nexus_Credentials', groupId: 'in.ngs', nexusUrl: '13.234.20.104', nexusVersion: 'nexus3', protocol: 'http', repository: 'Ngs_JobPortal_Repo', version: '1.0-SNAPSHOT'
                     }
