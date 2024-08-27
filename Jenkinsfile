@@ -32,7 +32,7 @@ pipeline {
                 }
                 stage('Upload Build Artifact') {
                     steps {
-                        nexusArtifactUploader artifacts: [[artifactId: 'Ngs-Job-Portal', classifier: '', file: 'target/Ngs-Job-Portal-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'Nexus_Credentials', groupId: 'in.ngs', nexusUrl: '13.234.20.104', nexusVersion: 'nexus3', protocol: 'http', repository: 'Ngs_JobPortal_Repo', version: '1.0-SNAPSHOT'
+                        echo 'upload sucess'
                     }
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
             emailext ( 
                 subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
                 body: "The build succeeded. Check the details at: ${env.BUILD_URL}/pipeline-graph/", 
-                to: 'rambasai4@gmail.com', 
+                to: 'kutchugovi@gmail.com', 
                 attachLog: true, 
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']] 
             ) 
@@ -52,7 +52,7 @@ pipeline {
             emailext ( 
                 subject: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
                 body: "The build failed. Check the details at: ${env.BUILD_URL}/pipeline-graph/", 
-                to: 'rambasai4@gmail.com', 
+                to: 'kutchugovi@gmail.com', 
                 attachLog: true, 
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]         
             ) 
