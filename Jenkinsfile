@@ -5,7 +5,7 @@ pipeline {
         maven 'maven3.9.8' // Use the Maven tool configured globally
     }
     environment {
-	        APP_NAME = "NGS-jobPortal"
+	        APP_NAME = "ngs-jobportal"
             RELEASE = "1.0.0"
             DOCKER_USER = "ganesh8195"
             DOCKER_PASS = 'dockerhub'
