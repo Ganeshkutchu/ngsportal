@@ -4,6 +4,15 @@ pipeline {
     tools {
         maven 'maven3.9.8' // Use the Maven tool configured globally
     }
+    environment {
+	        APP_NAME = "NGS-jobPortal"
+            RELEASE = "1.0.0"
+            DOCKER_USER = "ganesh8195"
+            DOCKER_PASS = 'dockerhub'
+            IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+            IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+	        JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
+    }
 
     stages {
         stage('Cleanup Workspace') {
@@ -30,12 +39,28 @@ pipeline {
                         }
                     }
                 }
-                stage('Upload Build Artifact') {
+        stage('Upload Build Artifact') {
                     steps {
                         nexusArtifactUploader artifacts: [[artifactId: 'Ngs-Job-Portal', classifier: '', file: 'target/Ngs-Job-Portal-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'Nexus_Credentials', groupId: 'in.ngs', nexusUrl: '13.126.14.152:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Ngs_snapshot_repo', version: '1.0-SNAPSHOT'
                     }
                 }
             }
+        }
+        stage('Build & Push Docker Image'){
+            steps{
+                script {
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
+                }
+
+            }
+
         }
     }
     post { 
