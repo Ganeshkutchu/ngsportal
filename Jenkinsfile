@@ -50,17 +50,35 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry('',DOCKER_PASS) {
-                        docker_image = docker.build "${IMAGE_NAME}"
-                    }
-
-                    docker.withRegistry('',DOCKER_PASS) {
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
+                    docker_image = docker.build "${IMAGE_NAME}"
                     }
                 }
 
             }
 
+        }
+        stage('Parallel Stages'){
+            parallel {
+                stage('push docker image to DockerHub'){
+                    steps{
+                        script{
+                            docker.withRegistry('',DOCKER_PASS) {
+                            docker_image.push("${IMAGE_TAG}")
+                            docker_image.push('latest')
+                    }
+                        }
+                    }
+                }
+            stage('push docker image to AWS ECR'){
+                steps{
+                    script{
+                       sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/q2v7l2n8'
+                       sh 'docker tag ngs_aws_repo:latest public.ecr.aws/q2v7l2n8/ngs_aws_repo:latest'
+                       sh 'docker push public.ecr.aws/q2v7l2n8/ngs_aws_repo:latest'
+                    }
+                }
+            }
+        }
         }
        stage ('Cleanup Artifacts') {
            steps {
