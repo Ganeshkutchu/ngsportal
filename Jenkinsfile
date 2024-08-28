@@ -73,7 +73,7 @@ pipeline {
                 steps{
                     script{
                        sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/q2v7l2n8'
-                       sh 'docker tag ganesh8195/ngs-jobportal:latest public.ecr.aws/q2v7l2n8/ganesh8195/ngs-jobportal:latest'
+                       sh 'docker tag ganesh8195/ngs-jobportal:latest public.ecr.aws/q2v7l2n8/ganesh8195/ngs-jobportal:${IMAGE_TAG}'
                        sh 'docker push public.ecr.aws/q2v7l2n8/ganesh8195/ngs-jobportal:latest'
                     }
                 }
