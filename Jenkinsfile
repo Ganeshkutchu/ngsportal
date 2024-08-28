@@ -57,7 +57,7 @@ pipeline {
             }
 
         }
-        stage('Parallel Stages'){
+        stage('Multi Stages'){
             parallel {
                 stage('push docker image to DockerHub'){
                     steps{
