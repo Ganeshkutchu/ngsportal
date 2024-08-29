@@ -41,7 +41,7 @@ pipeline {
                 }
         stage('Upload Build Artifact') {
                     steps {
-                        nexusArtifactUploader artifacts: [[artifactId: 'Ngs-Job-Portal', classifier: '', file: 'target/Ngs-Job-Portal-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'Nexus_Credentials', groupId: 'in.ngs', nexusUrl: '65.0.135.139:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Ngs_snapshot_repo', version: '1.0-SNAPSHOT'
+                        nexusArtifactUploader artifacts: [[artifactId: 'Ngs-Job-Portal', classifier: '', file: 'target/Ngs-Job-Portal-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'Nexus_Credentials', groupId: 'in.ngs', nexusUrl: '13.233.36.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Ngs_snapshot_repo', version: '1.0-SNAPSHOT'
                     }
                 }
             }
