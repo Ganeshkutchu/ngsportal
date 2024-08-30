@@ -2,7 +2,7 @@ pipeline {
     agent { label 'slave-1' } // Run the job on the node labeled 'slave-1'
     
     tools {
-        maven 'maven3.9.8' // Use the Maven tool configured globall
+        maven 'maven3.9.8' // Use the Maven tool configured globally
     }
     environment {
 	        APP_NAME = "ngs-jobportal"
