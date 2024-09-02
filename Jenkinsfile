@@ -25,7 +25,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Ganeshkutchu/ngsportal.git'
             }
         }
-        stage('Build an Artifact') {
+        stage('Build an Artifacts') {
             steps {
                 sh 'mvn clean package'
             }
