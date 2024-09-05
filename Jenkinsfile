@@ -91,7 +91,7 @@ pipeline {
        stage("Trigger CD Pipeline") {
             steps {
                 script {
-                    sh "curl -v -k --user ganesh:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-15-206-179-231.ap-south-1.compute.amazonaws.com:8080/job/NgsJobPortal-cd/buildWithParameters?token=github'"
+                    sh "curl -v -k --user ganesh:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-52-66-239-45.ap-south-1.compute.amazonaws.com:8080/job/NgsJobPortal-cd/buildWithParameters?token=github'"
                 }
             }
        }
